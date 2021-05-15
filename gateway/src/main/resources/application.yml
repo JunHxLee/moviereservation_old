@@ -1,0 +1,82 @@
+server:
+  port: 8088
+
+---
+
+spring:
+  profiles: default
+  cloud:
+    gateway:
+      routes:
+        - id: Ticketing
+          uri: http://localhost:8081
+          predicates:
+            - Path=/orders/** /movieInfos/**
+        - id: payment
+          uri: http://localhost:8082
+          predicates:
+            - Path=/pays/** 
+        - id: Screeningseatmanagement
+          uri: http://localhost:8083
+          predicates:
+            - Path=/seats/** 
+        - id: Ticketmanagement
+          uri: http://localhost:8084
+          predicates:
+            - Path=/ticketings/** 
+        - id: Mypage
+          uri: http://localhost:8085
+          predicates:
+            - Path= /mypages/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+
+---
+
+spring:
+  profiles: docker
+  cloud:
+    gateway:
+      routes:
+        - id: Ticketing
+          uri: http://Ticketing:8080
+          predicates:
+            - Path=/orders/** /movieInfos/**
+        - id: payment
+          uri: http://payment:8080
+          predicates:
+            - Path=/pays/** 
+        - id: Screeningseatmanagement
+          uri: http://Screeningseatmanagement:8080
+          predicates:
+            - Path=/seats/** 
+        - id: Ticketmanagement
+          uri: http://Ticketmanagement:8080
+          predicates:
+            - Path=/ticketings/** 
+        - id: Mypage
+          uri: http://Mypage:8080
+          predicates:
+            - Path= /mypages/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+server:
+  port: 8080
